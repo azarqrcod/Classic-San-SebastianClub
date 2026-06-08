@@ -4,23 +4,83 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register - Classic San Sebastian Club</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 <body>
 
 <h1>Create Account</h1>
 
-<form>
-<input type="text" placeholder="Full Name" required>
+<form id="registerForm">
+
+<input type="text" id="name" placeholder="Full Name" required>
 <br><br>
 
-<input type="email" placeholder="Email" required>
+<input type="email" id="email" placeholder="Email" required>
 <br><br>
 
-<input type="password" placeholder="Password" required>
+<input type="password" id="password" placeholder="Password" required>
 <br><br>
 
 <button type="submit">Register</button>
+
 </form>
+
+<p id="message"></p>
+
+<script>
+
+const supabaseUrl = "https://uzecfsxdngdtzwianhir.supabase.co";
+
+const supabaseKey = "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC";
+
+const supabase = window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+);
+
+document
+.getElementById("registerForm")
+.addEventListener("submit", async (e) => {
+
+e.preventDefault();
+
+const fullName =
+document.getElementById("name").value;
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+const { data, error } =
+await supabase.auth.signUp({
+email,
+password
+});
+
+if(error){
+document.getElementById("message").innerText =
+error.message;
+return;
+}
+
+await supabase
+.from("members")
+.insert([
+{
+name: fullName
+}
+]);
+
+document.getElementById("message").innerText =
+"Registration successful!";
+
+});
+
+</script>
 
 </body>
 </html>
