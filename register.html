@@ -1,90 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register - Classic San Sebastian Club</title>
-</head>
+<html>
 <body>
 
-<h1>Create Account</h1>
+<h1>Test</h1>
 
-<form id="registerForm">
+<button onclick="test()">
+Click Me
+</button>
 
-<input type="text" id="name" placeholder="Full Name" required>
-<br><br>
-
-<input type="email" id="email" placeholder="Email" required>
-<br><br>
-
-<input type="password" id="password" placeholder="Password" required>
-<br><br>
-
-<button type="submit">Register</button>
-
-</form>
-
-<p id="message"></p>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<p id="result"></p>
 
 <script>
 
-const supabaseUrl = "https://uzecfsxdngdtzwianhir.supabase.co";
-
-const supabaseKey = "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC";
-alert(typeof window.supabase);
-const supabase = window.supabase.createClient(
-  supabaseUrl,
-  supabaseKey
-);
-
-document
-  .getElementById("registerForm")
-  .addEventListener("submit", async (e) => {
-
-    e.preventDefault();
-
-    const fullName =
-      document.getElementById("name").value;
-
-    const email =
-      document.getElementById("email").value;
-
-    const password =
-      document.getElementById("password").value;
-
-    const { error: authError } =
-      await supabase.auth.signUp({
-        email,
-        password
-      });
-
-    if (authError) {
-      document.getElementById("message").innerText =
-        authError.message;
-      return;
-    }
-
-    const { error } =
-      await supabase
-        .from("members")
-        .insert([
-          {
-            name: fullName
-          }
-        ]);
-
-    if (error) {
-      document.getElementById("message").innerText =
-        error.message;
-      return;
-    }
-
-    document.getElementById("message").innerText =
-      "Registration successful!";
-
-  });
+function test() {
+  document.getElementById("result").innerHTML =
+    "JAVASCRIPT WORKS";
+}
 
 </script>
 
