@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<button id="test">INSERT TEST</button>
+<button id="test">TEST</button>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -10,28 +10,35 @@
 
 document.getElementById("test").onclick = async () => {
 
+  const supabase = window.supabase.createClient(
+    "https://uzecfsxdngdtzwianhir.supabase.co",
+    "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+  );
+
+  alert("CLIENT CREATED");
+
   try {
 
-    const supabase = window.supabase.createClient(
-      "https://uzecfsxdngdtzwianhir.supabase.co",
-      "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("TIMEOUT")), 10000)
     );
 
-    alert("CLIENT CREATED");
-
-    const { data, error } = await supabase
+    const query = supabase
       .from("members")
       .select("*")
       .limit(1);
 
-    if(error){
-      alert("ERROR: " + error.message);
-    } else {
-      alert("SUCCESS");
-    }
+    const result = await Promise.race([
+      query,
+      timeout
+    ]);
+
+    alert(JSON.stringify(result));
 
   } catch(err) {
-    alert("CATCH: " + err.message);
+
+    alert("ERROR: " + err.message);
+
   }
 
 };
