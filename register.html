@@ -2,49 +2,7 @@
 <html>
 <body>
 
-<button id="test">TEST SUPABASE</button>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-  
-alert("START");
-  
-const supabaseUrl = "https://uzecfsxdngdtzwianhir.supabase.co";
-
-const supabaseKey = "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC";
-
-const supabase = window.supabase.createClient(
-  supabaseUrl,
-  supabaseKey
-);
-
-document.getElementById("test").onclick = async () => {
-
-  try {
-
-    const { data, error } = await supabase
-      .from("members")
-      .insert([
-        {
-          name: "TEST USER"
-        }
-      ]);
-
-    if(error){
-      alert(error.message);
-      return;
-    }
-
-    alert("SUCCESS");
-
-  } catch(err){
-    alert(err.message);
-  }
-
-};
-
-</script>
+<h1>AZAR TEST 999</h1>
 
 </body>
 </html>
