@@ -4,29 +4,10 @@
 
 <button id="test">INSERT TEST</button>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 
-window.onerror = function(msg){
-  alert("ERROR: " + msg);
-};
-
-const supabase = window.supabase.createClient(
-  "https://uzecfsxdngdtzwianhir.supabase.co",
-  "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
-);
-
-document.getElementById("test").onclick = async () => {
-
-  alert("START");
-
-  const result = await supabase
-    .from("members")
-    .insert([{name:"AZAR TEST"}]);
-
-  alert(JSON.stringify(result));
-
+document.getElementById("test").onclick = () => {
+  alert("START 999");
 };
 
 </script>
