@@ -2,36 +2,9 @@
 <html>
 <body>
 
-<button id="test">INSERT</button>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-
-const supabase = window.supabase.createClient(
-  "https://uzecfsxdngdtzwianhir.supabase.co",
-  "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
-);
-
-document.getElementById("test").onclick = async () => {
-
-  const { data, error } = await supabase
-    .from("members")
-    .insert([
-      {
-        name: "AZAR TEST"
-      }
-    ])
-    .select();
-
-  alert(JSON.stringify({
-    data,
-    error
-  }));
-
-};
-
-</script>
+<button onclick="alert('CLICK WORKS')">
+INSERT
+</button>
 
 </body>
 </html>
