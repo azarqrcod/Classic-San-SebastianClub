@@ -1,6 +1,14 @@
-<!DOCTYPE html><html lang="en">
-<head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>CLASSIC SAN SEBASTIAN CLUB</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CLASSIC SAN SEBASTIAN CLUB</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
 
 *{
 margin:0;
@@ -8,15 +16,6 @@ padding:0;
 box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
-
-body{
-
-background:
-linear-gradient(
-rgba(0,0,0,.65),
-rgba(0,0,0,.90)
-),
-url("https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2000&q=80");
 
 body{
 
@@ -35,8 +34,6 @@ color:white;
 overflow-x:hidden;
 }
 
-/* HERO */
-
 .hero{
 
 min-height:100vh;
@@ -52,13 +49,7 @@ text-align:center;
 padding:40px 20px;
 }
 
-/* LOGO */
-
 .logo{
-
-posi.logo{
-
-position:relative;
 
 width:320px;
 height:320px;
@@ -67,68 +58,17 @@ display:flex;
 justify-content:center;
 align-items:center;
 
-margin-bottom:20px;
+margin-bottom:15px;
 }
 
 .logo img{
 
 width:280px;
-
-position:relative;
-
-z-index:2;
+max-width:100%;
 
 filter:
-drop-shadow(0 0 8px rgba(212,175,55,.25))
-drop-shadow(0 0 18px rgba(212,175,55,.15));
+drop-shadow(0 0 8px rgba(212,175,55,.15));
 }
-
-animation:pulse 2.5s infinite;
-}
-
-.logo::after{
-
-content:"";
-
-position:absolute;
-
-width:290px;
-height:290px;
-
-border-radius:50%;
-
-background:
-conic-gradient(
-from 0deg,
-transparent,
-#d4af37,
-transparent,
-#ffd700,
-transparent
-);
-
-filter:blur(20px);
-
-animation:rotate 8s linear infinite;
-}
-
-.logo img{
-
-width:200px;
-
-position:relative;
-
-z-index:2;
-
-animation:glow 2s ease-in-out infinite alternate;
-
-filter:
-drop-shadow(0 0 15px #d4af37)
-drop-shadow(0 0 35px #d4af37)
-drop-shadow(0 0 60px rgba(212,175,55,.8));
-}
-
-/* TITLES */
 
 .brand-top{
 
@@ -152,9 +92,6 @@ font-weight:900;
 line-height:1;
 
 text-transform:uppercase;
-
-text-shadow:
-0 0 25px rgba(255,255,255,.2);
 }
 
 h2{
@@ -204,8 +141,6 @@ color:#ddd;
 margin-bottom:45px;
 }
 
-/* BUTTONS */
-
 .join-btn{
 
 display:inline-block;
@@ -228,16 +163,14 @@ text-decoration:none;
 border-radius:50px;
 
 box-shadow:
-0 0 25px rgba(212,175,55,.4);
-
-letter-spacing:1px;
+0 0 20px rgba(212,175,55,.25);
 
 transition:.3s;
 }
 
 .join-btn:hover{
 
-transform:translateY(-4px);
+transform:translateY(-3px);
 }
 
 .login-btn{
@@ -250,14 +183,12 @@ padding:14px 30px;
 
 border-radius:50px;
 
-border:1px solid rgba(212,175,55,.4);
+border:1px solid rgba(212,175,55,.35);
 
 text-decoration:none;
 
 color:white;
 }
-
-/* REWARDS */
 
 .rewards{
 
@@ -282,7 +213,7 @@ background:rgba(255,255,255,.05);
 
 backdrop-filter:blur(15px);
 
-border:1px solid rgba(212,175,55,.2);
+border:1px solid rgba(212,175,55,.15);
 
 border-radius:25px;
 }
@@ -300,8 +231,6 @@ margin-bottom:10px;
 
 color:#ddd;
 }
-
-/* BENEFITS */
 
 .section{
 
@@ -358,8 +287,6 @@ color:#ccc;
 line-height:1.8;
 }
 
-/* FOOTER */
-
 footer{
 
 padding:45px 20px;
@@ -406,68 +333,18 @@ transition:.3s;
 background:#d4af37;
 
 color:#000;
-
-box-shadow:
-0 0 25px rgba(212,175,55,.6);
 }
-
-/* ANIMATION */
-
-@keyframes rotate{
-
-from{
-transform:rotate(0deg);
-}
-
-to{
-transform:rotate(360deg);
-}
-
-}
-
-@keyframes pulse{
-
-0%{
-transform:scale(.95);
-opacity:.6;
-}
-
-50%{
-transform:scale(1.08);
-opacity:1;
-}
-
-100%{
-transform:scale(.95);
-opacity:.6;
-}
-
-}
-
-@keyframes glow{
-
-from{
-
-filter:
-drop-shadow(0 0 10px #d4af37)
-drop-shadow(0 0 25px #d4af37);
-
-}
-
-to{
-
-filter:
-drop-shadow(0 0 25px #ffd700)
-drop-shadow(0 0 50px #ffd700)
-drop-shadow(0 0 80px rgba(255,215,0,.8));
-
-}
-
-}
-
-/* MOBILE */
 
 @media(max-width:768px){
+
+.logo{
+width:240px;
+height:240px;
+}
+
+.logo img{
+width:220px;
+}
 
 h1{
 font-size:46px;
@@ -485,15 +362,6 @@ font-size:18px;
 font-size:16px;
 }
 
-.logo{
-width:180px;
-height:180px;
-}
-
-.logo img{
-width:160px;
-}
-
 .reward{
 width:100%;
 max-width:280px;
@@ -501,44 +369,105 @@ max-width:280px;
 
 }
 
-</style></head><body><section class="hero"><div class="logo">
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+
+<div class="logo">
 <img src="logo.png" alt="CLASSIC SAN SEBASTIAN CLUB">
-</div><div class="brand-top">
+</div>
+
+<div class="brand-top">
 CLASSIC
-</div><h1>SAN SEBASTIAN</h1><h2>CLUB</h2><div class="hero-line"></div><div class="subtitle">
+</div>
+
+<h1>SAN SEBASTIAN</h1>
+
+<h2>CLUB</h2>
+
+<div class="hero-line"></div>
+
+<div class="subtitle">
 Berlin Edition
-</div><p class="description">
-Join the official CLASSIC SAN SEBASTIAN CLUB. Collect visits, unlock rewards, enjoy exclusive offers and become part of our premium Berlin community.
-</p><a href="register.html" class="join-btn">
+</div>
+
+<p class="description">
+Join the official CLASSIC SAN SEBASTIAN CLUB. Collect visits, unlock rewards and enjoy exclusive member benefits in Berlin.
+</p>
+
+<a href="register.html" class="join-btn">
 JOIN THE CLUB
-</a><br><a href="login.html" class="login-btn">
+</a>
+
+<br>
+
+<a href="login.html" class="login-btn">
 I ALREADY HAVE AN ACCOUNT
-</a><div class="rewards"><div class="reward">
+</a>
+
+<div class="rewards">
+
+<div class="reward">
 <h3>5</h3>
 <p>Visits Free Coffee</p>
-</div><div class="reward">
+</div>
+
+<div class="reward">
 <h3>10</h3>
 <p>Visits Free Cheesecake</p>
-</div><div class="reward">
+</div>
+
+<div class="reward">
 <h3>50</h3>
 <p>VIP Member Status</p>
-</div></div></section><section class="section"><h2 class="section-title">
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
 Member Benefits
-</h2><div class="grid"><div class="box">
+</h2>
+
+<div class="grid">
+
+<div class="box">
 <h3>Digital Member Card</h3>
 <p>Your personal membership card with QR access.</p>
-</div><div class="box">
+</div>
+
+<div class="box">
 <h3>Rewards & Gifts</h3>
 <p>Unlock free coffee, free cheesecake and exclusive gifts.</p>
-</div><div class="box">
+</div>
+
+<div class="box">
 <h3>Collect Visits</h3>
 <p>Earn visits automatically after every purchase.</p>
-</div><div class="box">
+</div>
+
+<div class="box">
 <h3>Berlin Community</h3>
 <p>Be part of the CLASSIC SAN SEBASTIAN CLUB experience.</p>
-</div></div></section><footer>Powered by AzarCore
+</div>
 
-<br>© 2026 AzarCore
+</div>
+
+</section>
+
+<footer>
+
+Powered by AzarCore
+
+<br>
+
+© 2026 AzarCore
 
 <br><br>
 
@@ -549,5 +478,9 @@ target="_blank">
 
 ⚡ Visit AzarCore
 
-</a></footer></body>
+</a>
+
+</footer>
+
+</body>
 </html>
