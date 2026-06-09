@@ -1,26 +1,14 @@
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!DOCTYPE html>
+<html>
+<body>
+
+<button id="btn">TEST</button>
 
 <script>
-const supabase = window.supabase.createClient(
-  "https://uzecfsxdngdtzwianhir.supabase.co",
-  "YOUR_PUBLISHABLE_KEY"
-);
-
-document.getElementById("btn").onclick = async () => {
-
-  const { data, error } = await supabase
-    .from("members")
-    .insert([
-      {
-        name: "TEST123"
-      }
-    ])
-    .select();
-
-  alert("ERROR:");
-  alert(JSON.stringify(error, null, 2));
-
-  alert("DATA:");
-  alert(JSON.stringify(data, null, 2));
+document.getElementById("btn").onclick = function () {
+  alert("BUTTON WORKS");
 };
 </script>
+
+</body>
+</html>
