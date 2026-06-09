@@ -3,10 +3,10 @@
   <input type="text" id="name" placeholder="Name" required>
   <br><br>
 
-  <input type="text" id="phone" placeholder="Phone">
+  <input type="email" id="email" placeholder="Email" required>
   <br><br>
 
-  <input type="email" id="email" placeholder="Email" required>
+  <input type="text" id="phone" placeholder="Phone (Optional)">
   <br><br>
 
   <button type="submit">Register</button>
@@ -19,7 +19,7 @@
 
 const client = window.supabase.createClient(
   "https://uzecfsxdngdtzwianhir.supabase.co",
-  "YOUR_PUBLISHABLE_KEY"
+  "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
 );
 
 document
@@ -29,20 +29,40 @@ document
   e.preventDefault();
 
   const name =
-    document.getElementById("name").value;
-
-  const phone =
-    document.getElementById("phone").value;
+    document.getElementById("name").value.trim();
 
   const email =
-    document.getElementById("email").value;
+    document.getElementById("email").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
 
   const memberCode =
-    "AZ" + crypto.randomUUID().slice(0,8).toUpperCase();
+    "AZ" +
+    crypto.randomUUID()
+      .replace(/-/g, "")
+      .substring(0, 8)
+      .toUpperCase();
+
+  // بررسی تکراری نبودن ایمیل
+
+  const { data: existingMember } =
+    await client
+      .from("members")
+      .select("id")
+      .eq("email", email)
+      .maybeSingle();
+
+  if (existingMember) {
+    alert("This email is already registered.");
+    return;
+  }
+
+  // ارسال Magic Link
 
   const { error: authError } =
     await client.auth.signInWithOtp({
-      email
+      email: email
     });
 
   if (authError) {
@@ -50,14 +70,16 @@ document
     return;
   }
 
+  // ذخیره عضو
+
   const { error } =
     await client
       .from("members")
       .insert([
         {
-          name,
-          phone,
-          email,
+          name: name,
+          email: email,
+          phone: phone,
           member_code: memberCode,
           points: 0,
           visits: 0,
@@ -71,7 +93,7 @@ document
   }
 
   alert(
-    "Check your email and confirm your membership."
+    "Registration successful. Please check your email."
   );
 
   document
