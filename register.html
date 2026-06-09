@@ -1,29 +1,59 @@
-<button id="btn">INSERT TEST</button>
+<form id="memberForm">
+
+  <input type="text" id="name" placeholder="Name" required>
+  <br><br>
+
+  <input type="text" id="phone" placeholder="Phone">
+  <br><br>
+
+  <input type="email" id="email" placeholder="Email">
+  <br><br>
+
+  <button type="submit">Register</button>
+
+</form>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+
 const client = window.supabase.createClient(
-"https://uzecfsxdngdtzwianhir.supabase.co",
-"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+  "https://uzecfsxdngdtzwianhir.supabase.co",
+  "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
 );
 
-document.getElementById("btn").onclick = async () => {
+document
+.getElementById("memberForm")
+.addEventListener("submit", async (e) => {
 
-  const { data, error } = await client
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const email = document.getElementById("email").value;
+
+  const memberCode =
+    "SSC-" + Date.now();
+
+  const { error } = await client
     .from("members")
     .insert([
       {
-        name: "TEST123"
+        name: name,
+        phone: phone,
+        email: email,
+        member_code: memberCode,
+        points: 0
       }
-    ])
-    .select();
+    ]);
 
-  if(error){
+  if (error) {
     alert(error.message);
-  }else{
-    alert("INSERT OK");
+  } else {
+    alert("Registration successful");
+    document.getElementById("memberForm").reset();
   }
 
-};
+});
+
 </script>
