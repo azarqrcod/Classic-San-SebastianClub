@@ -1,21 +1,9 @@
-<form id="memberForm">
+<form id="memberForm">  <input type="text" id="name" placeholder="Name" required>
+  <br><br>  <input type="email" id="email" placeholder="Email" required>
+  <br><br>  <input type="text" id="phone" placeholder="Phone (Optional)">
+  <br><br><button type="submit">Register</button>
 
-  <input type="text" id="name" placeholder="Name" required>
-  <br><br>
-
-  <input type="email" id="email" placeholder="Email" required>
-  <br><br>
-
-  <input type="text" id="phone" placeholder="Phone (Optional)">
-  <br><br>
-
-  <button type="submit">Register</button>
-
-</form>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
+</form><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
 const client = window.supabase.createClient(
   "https://uzecfsxdngdtzwianhir.supabase.co",
@@ -44,8 +32,6 @@ document
       .substring(0, 8)
       .toUpperCase();
 
-  // بررسی تکراری نبودن ایمیل
-
   const { data: existingMember } =
     await client
       .from("members")
@@ -58,19 +44,19 @@ document
     return;
   }
 
-  // ارسال Magic Link
-
   const { error: authError } =
     await client.auth.signInWithOtp({
-      email: email
+      email: email,
+      options: {
+        emailRedirectTo:
+          "https://azarqrcod.github.io/Classic-San-SebastianClub/"
+      }
     });
 
   if (authError) {
     alert(authError.message);
     return;
   }
-
-  // ذخیره عضو
 
   const { error } =
     await client
