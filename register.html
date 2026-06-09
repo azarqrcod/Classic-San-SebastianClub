@@ -1,14 +1,32 @@
-<!DOCTYPE html>
-<html>
-<body>
-
-<button id="btn">TEST</button>
+<button id="btn">TEST DB</button>
 
 <script>
-document.getElementById("btn").onclick = function () {
-  alert("BUTTON WORKS");
+document.getElementById("btn").onclick = async function () {
+
+  alert("START");
+
+  try {
+
+    const { data, error } = await supabase
+      .from("members")
+      .insert([
+        { name: "TEST123" }
+      ])
+      .select();
+
+    alert("AFTER QUERY");
+
+    alert(JSON.stringify(error));
+
+    alert(JSON.stringify(data));
+
+  } catch (e) {
+
+    alert("CATCH ERROR");
+
+    alert(e.message);
+
+  }
+
 };
 </script>
-
-</body>
-</html>
