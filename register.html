@@ -8,12 +8,21 @@
 
 <script>
 
-document.getElementById("test").onclick = () => {
+document.getElementById("test").onclick = async () => {
 
-  if(window.supabase){
-    alert("SUPABASE LOADED");
-  }else{
-    alert("SUPABASE FAILED");
+  try {
+
+    const supabase = window.supabase.createClient(
+      "https://uzecfsxdngdtzwianhir.supabase.co",
+      "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+    );
+
+    alert("CLIENT OK");
+
+  } catch(err) {
+
+    alert(err.message);
+
   }
 
 };
