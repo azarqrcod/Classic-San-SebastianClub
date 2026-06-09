@@ -1,32 +1,52 @@
-<button id="btn">TEST DB</button>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Test Supabase</title>
+</head>
+<body>
+
+<button id="testBtn">TEST DB</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-document.getElementById("btn").onclick = async function () {
+const SUPABASE_URL =
+"https://uzecfsxdngdtzwianhir.supabase.co";
 
-  alert("START");
+const SUPABASE_KEY =
+"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+document
+.getElementById("testBtn")
+.addEventListener("click", async () => {
 
   try {
 
-    const { data, error } = await supabase
+    const { data, error } =
+      await supabaseClient
       .from("members")
-      .insert([
-        { name: "TEST123" }
-      ])
-      .select();
+      .select("*");
 
-    alert("AFTER QUERY");
+    if (error) {
+      alert(error.message);
+      return;
+    }
 
-    alert(JSON.stringify(error));
-
-    alert(JSON.stringify(data));
+    alert("CONNECTED\nRows: " + data.length);
 
   } catch (e) {
-
-    alert("CATCH ERROR");
-
-    alert(e.message);
-
+    alert("ERROR: " + e.message);
   }
 
-};
+});
 </script>
+
+</body>
+</html>
