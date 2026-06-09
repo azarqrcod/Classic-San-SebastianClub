@@ -2,7 +2,23 @@
 <html>
 <body>
 
-<button onclick="alert('JS WORKS')">TEST</button>
+<button id="test">TEST</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+document.getElementById("test").onclick = () => {
+
+  if(window.supabase){
+    alert("SUPABASE LOADED");
+  }else{
+    alert("SUPABASE FAILED");
+  }
+
+};
+
+</script>
 
 </body>
 </html>
