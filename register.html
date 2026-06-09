@@ -1,16 +1,9 @@
 <button id="check">CHECK DB</button>
 
 <script>
-document.getElementById("check").onclick = async () => {
 alert("JS LOADED");
-  const result = await supabase
-    .from("members")
-    .insert([
-      { name: "TEST123" }
-    ])
-    .select();
 
-  alert(JSON.stringify(result));
-
+document.getElementById("check").onclick = () => {
+    alert("CLICKED");
 };
 </script>
