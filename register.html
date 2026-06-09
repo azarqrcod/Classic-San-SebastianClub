@@ -1,8 +1,16 @@
-const result = await supabase
-  .from("members")
-  .insert([
-    { name: "TEST123" }
-  ])
-  .select();
+<button id="check">CHECK DB</button>
 
-alert(JSON.stringify(result));
+<script>
+document.getElementById("check").onclick = async () => {
+
+  const result = await supabase
+    .from("members")
+    .insert([
+      { name: "TEST123" }
+    ])
+    .select();
+
+  alert(JSON.stringify(result));
+
+};
+</script>
