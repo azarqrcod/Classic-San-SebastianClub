@@ -2,15 +2,29 @@
 <html>
 <body>
 
-<button id="test">TEST</button>
+<button id="test">TEST DB</button>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-document.getElementById("test").onclick = () => {
+const supabase = window.supabase.createClient(
+  "https://uzecfsxdngdtzwianhir.supabase.co",
+  "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+);
 
-  alert(typeof window.supabase);
+document.getElementById("test").onclick = async () => {
+
+  const { data, error } = await supabase
+    .from("members")
+    .select("*");
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  alert("SUCCESS");
 
 };
 
