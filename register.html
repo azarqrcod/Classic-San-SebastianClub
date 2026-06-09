@@ -2,27 +2,31 @@
 <html>
 <body>
 
-<button id="test">TEST</button>
+<button id="test">INSERT TEST</button>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
+const supabase = window.supabase.createClient(
+  "https://uzecfsxdngdtzwianhir.supabase.co",
+  "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+);
+
 document.getElementById("test").onclick = async () => {
 
-  try {
+  const { data, error } = await supabase
+    .from("members")
+    .insert([
+      {
+        name: "AZAR TEST"
+      }
+    ]);
 
-    const supabase = window.supabase.createClient(
-      "https://uzecfsxdngdtzwianhir.supabase.co",
-      "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
-    );
-
-    alert("CLIENT OK");
-
-  } catch(err) {
-
-    alert(err.message);
-
+  if(error){
+    alert(error.message);
+  }else{
+    alert("INSERT OK");
   }
 
 };
