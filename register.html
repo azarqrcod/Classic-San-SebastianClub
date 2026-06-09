@@ -1,6 +1,11 @@
-<button id="btn">CHECK DB</button>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+const supabase = window.supabase.createClient(
+  "https://uzecfsxdngdtzwianhir.supabase.co",
+  "YOUR_PUBLISHABLE_KEY"
+);
+
 document.getElementById("btn").onclick = async () => {
 
   const { data, error } = await supabase
@@ -17,6 +22,5 @@ document.getElementById("btn").onclick = async () => {
 
   alert("DATA:");
   alert(JSON.stringify(data, null, 2));
-
 };
 </script>
