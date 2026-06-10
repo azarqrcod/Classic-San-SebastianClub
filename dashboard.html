@@ -278,9 +278,9 @@ async function loadMember(){
 
 const memberCode =
 localStorage.getItem("memberCode");
-  
-alert(localStorage.getItem("memberCode"));
-  
+
+alert(memberCode);
+
 if(!memberCode){
 return;
 }
@@ -292,7 +292,7 @@ await client
 .eq("member_code", memberCode)
 .single();
 
-  alert("QUERY DONE");
+alert("QUERY DONE");
 
 if(error){
 alert(error.message);
@@ -300,6 +300,7 @@ return;
 }
 
 alert(JSON.stringify(data));
+}
   
 if(error){
 console.log(error);
