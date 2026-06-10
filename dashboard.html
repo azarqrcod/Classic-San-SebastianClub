@@ -313,19 +313,20 @@ document.getElementById("memberCode").innerText =
 data.member_code;
 
 if(data.photo_url){
-document.getElementById("memberPhoto").src =
-data.photo_url;
+    document.getElementById("memberPhoto").src =
+    data.photo_url;
 }
-alert(document.querySelectorAll(".stat h2").length);
-document.querySelectorAll(".stat h2")[0].innerText =
+
+console.log(data);
+
+document.querySelectorAll(".stat h2")[0].textContent =
 data.visits || 0;
 
-document.querySelectorAll(".stat h2")[1].innerText =
+document.querySelectorAll(".stat h2")[1].textContent =
 data.points || 0;
 
-document.querySelectorAll(".stat h2")[2].innerText =
+document.querySelectorAll(".stat h2")[2].textContent =
 data.rank || "Bronze";
-
 }
 
 loadMember();
