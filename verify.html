@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Verifying...</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const client = window.supabase.createClient(
+"https://uzecfsxdngdtzwianhir.supabase.co",
+"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+);
+
+window.onload = async () => {
+
+const name = localStorage.getItem("pendingName");
+const email = localStorage.getItem("pendingEmail");
+const phone = localStorage.getItem("pendingPhone");
+const photo = localStorage.getItem("pendingPhoto");
+const memberCode = localStorage.getItem("pendingMemberCode");
+
+const { error } =
+await client
+.from("members")
+.insert([{
+name:name,
+email:email,
+phone:phone,
+photo_url:photo,
+member_code:memberCode,
+points:0,
+visits:0,
+receipt_count:0,
+rank:"Bronze"
+}]);
+
+if(error){
+document.body.innerHTML =
+"<h2>Verification Error</h2><p>" +
+error.message +
+"</p>";
+return;
+}
+
+localStorage.setItem("memberName",name);
+localStorage.setItem("memberCode",memberCode);
+localStorage.setItem("memberPhoto",photo);
+
+window.location.href =
+"dashboard.html";
+
+};
+
+</script>
+
+</head>
+
+<body>
+
+<h2>Verifying Membership...</h2>
+
+</body>
+</html>
