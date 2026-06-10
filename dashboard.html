@@ -316,7 +316,7 @@ if(data.photo_url){
 document.getElementById("memberPhoto").src =
 data.photo_url;
 }
-
+alert(document.querySelectorAll(".stat h2").length);
 document.querySelectorAll(".stat h2")[0].innerText =
 data.visits || 0;
 
