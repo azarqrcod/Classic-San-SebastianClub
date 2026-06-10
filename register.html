@@ -1,91 +1,384 @@
-<form id="memberForm">  <input type="text" id="name" placeholder="Name" required>
-  <br><br>  <input type="email" id="email" placeholder="Email" required>
-  <br><br>  <input type="text" id="phone" placeholder="Phone (Optional)">
-  <br><br><button type="submit">Register</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-</form><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Join The Club</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+rgba(0,0,0,.55),
+rgba(0,0,0,.90)
+),
+url("berlin-bg.png");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+min-height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+padding:30px;
+
+color:white;
+}
+
+.card{
+
+width:100%;
+max-width:500px;
+
+background:rgba(0,0,0,.45);
+
+backdrop-filter:blur(15px);
+
+border:1px solid rgba(212,175,55,.25);
+
+border-radius:30px;
+
+padding:30px;
+}
+
+.logo{
+
+width:120px;
+
+display:block;
+
+margin:auto;
+}
+
+h1{
+
+text-align:center;
+
+margin-top:15px;
+
+font-size:34px;
+
+font-weight:800;
+}
+
+.subtitle{
+
+text-align:center;
+
+color:#d4af37;
+
+margin-bottom:30px;
+}
+
+.avatarBox{
+
+width:140px;
+height:140px;
+
+border-radius:50%;
+
+overflow:hidden;
+
+margin:auto;
+
+border:3px solid #d4af37;
+}
+
+.avatarBox img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+}
+
+.uploadBtn{
+
+display:block;
+
+width:100%;
+
+margin-top:15px;
+
+padding:12px;
+
+border:none;
+
+border-radius:12px;
+
+background:#d4af37;
+
+font-weight:700;
+
+cursor:pointer;
+}
+
+input{
+
+width:100%;
+
+padding:15px;
+
+margin-top:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:rgba(255,255,255,.08);
+
+color:white;
+}
+
+input::placeholder{
+color:#ccc;
+}
+
+.registerBtn{
+
+width:100%;
+
+padding:15px;
+
+margin-top:20px;
+
+border:none;
+
+border-radius:12px;
+
+background:#d4af37;
+
+font-size:18px;
+
+font-weight:700;
+
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<img src="logo.png" class="logo">
+
+<h1>JOIN THE CLUB</h1>
+
+<p class="subtitle">
+CLASSIC SAN SEBASTIAN CLUB
+</p>
+
+<form id="memberForm">
+
+<div class="avatarBox">
+<img
+id="preview"
+src="logo.png">
+</div>
+
+<input
+type="file"
+id="photo"
+accept="image/*">
+
+<input
+type="text"
+id="name"
+placeholder="Full Name"
+required>
+
+<input
+type="email"
+id="email"
+placeholder="Email Address"
+required>
+
+<input
+type="text"
+id="phone"
+placeholder="Phone (Optional)">
+
+<button
+type="submit"
+class="registerBtn">
+CREATE MEMBER CARD
+</button>
+
+</form>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
 
 const client = window.supabase.createClient(
-  "https://uzecfsxdngdtzwianhir.supabase.co",
-  "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+"https://uzecfsxdngdtzwianhir.supabase.co",
+"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+);
+
+const photoInput =
+document.getElementById("photo");
+
+const preview =
+document.getElementById("preview");
+
+let selectedFile = null;
+
+photoInput.addEventListener(
+"change",
+(e)=>{
+
+selectedFile =
+e.target.files[0];
+
+if(selectedFile){
+
+preview.src =
+URL.createObjectURL(selectedFile);
+
+}
+
+}
 );
 
 document
 .getElementById("memberForm")
-.addEventListener("submit", async (e) => {
+.addEventListener(
+"submit",
+async (e)=>{
 
-  e.preventDefault();
+e.preventDefault();
 
-  const name =
-    document.getElementById("name").value.trim();
+const name =
+document.getElementById("name")
+.value.trim();
 
-  const email =
-    document.getElementById("email").value.trim();
+const email =
+document.getElementById("email")
+.value.trim();
 
-  const phone =
-    document.getElementById("phone").value.trim();
+const phone =
+document.getElementById("phone")
+.value.trim();
 
-  const memberCode =
-    "AZ" +
-    crypto.randomUUID()
-      .replace(/-/g, "")
-      .substring(0, 8)
-      .toUpperCase();
+const memberCode =
+"az" +
+Math.floor(
+1000 + Math.random()*9000
+);
 
-  const { data: existingMember } =
-    await client
-      .from("members")
-      .select("id")
-      .eq("email", email)
-      .maybeSingle();
+let photoUrl = "";
 
-  if (existingMember) {
-    alert("This email is already registered.");
-    return;
-  }
+if(selectedFile){
 
-  const { error: authError } =
-    await client.auth.signInWithOtp({
-      email: email,
-      options: {
-        emailRedirectTo:
-          "https://azarqrcod.github.io/Classic-San-SebastianClub/"
-      }
-    });
+const fileName =
+Date.now() +
+"-" +
+selectedFile.name;
 
-  if (authError) {
-    alert(authError.message);
-    return;
-  }
+const { error: uploadError } =
+await client.storage
+.from("avatars")
+.upload(
+fileName,
+selectedFile
+);
 
-  const { error } =
-    await client
-      .from("members")
-      .insert([
-        {
-          name: name,
-          email: email,
-          phone: phone,
-          member_code: memberCode,
-          points: 0,
-          visits: 0,
-          rank: "Bronze"
-        }
-      ]);
+if(uploadError){
 
-  if (error) {
-    alert(error.message);
-    return;
-  }
+alert(uploadError.message);
 
-  alert(
-    "Registration successful. Please check your email."
-  );
+return;
 
-  document
-    .getElementById("memberForm")
-    .reset();
+}
 
-});
+const {
+data
+} =
+client.storage
+.from("avatars")
+.getPublicUrl(fileName);
+
+photoUrl =
+data.publicUrl;
+
+}
+
+const { error } =
+await client
+.from("members")
+.insert([{
+
+name:name,
+
+email:email,
+
+phone:phone,
+
+photo_url:photoUrl,
+
+member_code:memberCode,
+
+points:0,
+
+visits:0,
+
+receipt_count:0,
+
+rank:"Bronze"
+
+}]);
+
+if(error){
+
+alert(error.message);
+
+return;
+
+}
+
+localStorage.setItem(
+"memberName",
+name
+);
+
+localStorage.setItem(
+"memberCode",
+memberCode
+);
+
+localStorage.setItem(
+"memberPhoto",
+photoUrl
+);
+
+window.location.href =
+"dashboard.html";
+
+}
+);
 
 </script>
+
+</body>
+</html>
