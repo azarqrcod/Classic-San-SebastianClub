@@ -264,19 +264,59 @@ Loading...
 </div>
 
 </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+
+const client = window.supabase.createClient(
+"https://uzecfsxdngdtzwianhir.supabase.co",
+"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+);
+
+async function loadMember(){
+
+const memberCode =
+localStorage.getItem("memberCode");
+  
+alert(localStorage.getItem("memberCode"));
+  
+if(!memberCode){
+return;
+}
+
+const { data, error } =
+await client
+.from("members")
+.select("*")
+.eq("member_code", memberCode)
+.single();
+
+if(error){
+console.log(error);
+return;
+}
+
 document.getElementById("memberName").innerText =
-localStorage.getItem("memberName") || "Member";
+data.name;
 
 document.getElementById("memberCode").innerText =
-localStorage.getItem("memberCode") || "No Code";
+data.member_code;
 
-const photo =
-localStorage.getItem("memberPhoto");
-
-if(photo){
-document.getElementById("memberPhoto").src = photo;
+if(data.photo_url){
+document.getElementById("memberPhoto").src =
+data.photo_url;
 }
+
+document.querySelectorAll(".stat h2")[0].innerText =
+data.visits || 0;
+
+document.querySelectorAll(".stat h2")[1].innerText =
+data.points || 0;
+
+document.querySelectorAll(".stat h2")[2].innerText =
+data.rank || "Bronze";
+
+}
+
+loadMember();
+
 </script>
-</body>
-</html>
