@@ -214,12 +214,12 @@ src="logo.png"
 class="avatar"
 id="memberPhoto">
 
-<div class="member-name">
-Member Name
+<div class="member-name" id="memberName">
+Loading...
 </div>
 
-<div class="member-id">
-az6743
+<div class="member-id" id="memberCode">
+Loading...
 </div>
 
 </div>
@@ -264,6 +264,19 @@ az6743
 </div>
 
 </div>
+<script>
+document.getElementById("memberName").innerText =
+localStorage.getItem("memberName") || "Member";
 
+document.getElementById("memberCode").innerText =
+localStorage.getItem("memberCode") || "No Code";
+
+const photo =
+localStorage.getItem("memberPhoto");
+
+if(photo){
+document.getElementById("memberPhoto").src = photo;
+}
+</script>
 </body>
 </html>
