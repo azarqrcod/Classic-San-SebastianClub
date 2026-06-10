@@ -324,58 +324,29 @@ data.publicUrl;
 
 }
 
-const { error } =
-await client
-.from("members")
-.insert([{
+const { error: otpError } =
+await client.auth.signInWithOtp({
+email: email,
+options: {
+emailRedirectTo:
+"https://azarqrcod.github.io/Classic-San-SebastianClub/verify.html"
+}
+});
 
-name:name,
-
-email:email,
-
-phone:phone,
-
-photo_url:photoUrl,
-
-member_code:memberCode,
-
-points:0,
-
-visits:0,
-
-receipt_count:0,
-
-rank:"Bronze"
-
-}]);
-
-if(error){
-
-alert(error.message);
-
+if(otpError){
+alert(otpError.message);
 return;
-
 }
 
-localStorage.setItem(
-"memberName",
-name
+localStorage.setItem("pendingName",name);
+localStorage.setItem("pendingEmail",email);
+localStorage.setItem("pendingPhone",phone);
+localStorage.setItem("pendingPhoto",photoUrl);
+localStorage.setItem("pendingMemberCode",memberCode);
+
+alert(
+"Check your email and click the confirmation link."
 );
-
-localStorage.setItem(
-"memberCode",
-memberCode
-);
-
-localStorage.setItem(
-"memberPhoto",
-photoUrl
-);
-
-window.location.href =
-"dashboard.html";
-
-}
 );
 
 </script>
