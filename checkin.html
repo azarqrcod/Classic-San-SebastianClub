@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Check In</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+body{
+background:#000;
+color:#d4af37;
+font-family:Arial;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+text-align:center;
+}
+
+.card{
+padding:30px;
+border:1px solid #d4af37;
+border-radius:20px;
+background:#111;
+max-width:500px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h1>CLASSIC SAN SEBASTIAN CLUB</h1>
+
+<h2 id="status">Checking...</h2>
+
+<p id="message"></p>
+</div>
+
+<script>
+
+const SUPABASE_URL = "SUPABASE_URL";
+const SUPABASE_KEY = "SUPABASE_ANON_KEY";
+
+const client =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+async function runCheckin(){
+
+document.getElementById("status").innerText =
+"Checking...";
+
+}
+
+runCheckin();
+
+</script>
+
+</body>
+</html>
