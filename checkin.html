@@ -1,63 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Check In</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Check In | CLASSIC SAN SEBASTIAN CLUB</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 body{
 background:#000;
 color:#d4af37;
-font-family:Arial;
+font-family:Poppins,sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
+margin:0;
 text-align:center;
 }
 
 .card{
-padding:30px;
+width:90%;
+max-width:500px;
+padding:40px;
 border:1px solid #d4af37;
 border-radius:20px;
 background:#111;
-max-width:500px;
 }
+
+h1{
+margin-bottom:20px;
+}
+
+#status{
+font-size:24px;
+}
+
 </style>
+
 </head>
 
 <body>
 
 <div class="card">
+
 <h1>CLASSIC SAN SEBASTIAN CLUB</h1>
 
-<h2 id="status">Checking...</h2>
+<div id="status">
+Checking Member...
+</div>
 
-<p id="message"></p>
 </div>
 
 <script>
 
-const SUPABASE_URL = "SUPABASE_URL";
-const SUPABASE_KEY = "SUPABASE_ANON_KEY";
-
-const client =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+const client = window.supabase.createClient(
+"https://uzecfsxdngdtzwianhir.supabase.co",
+"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
 );
 
-async function runCheckin(){
+async function checkIn(){
+
+const memberCode =
+localStorage.getItem("memberCode");
+
+if(!memberCode){
 
 document.getElementById("status").innerText =
-"Checking...";
+"Member Not Found";
+
+return;
 
 }
 
-runCheckin();
+document.getElementById("status").innerText =
+"Member: " + memberCode;
+
+}
+
+checkIn();
 
 </script>
 
