@@ -25,7 +25,7 @@ text-align:center;
 
 .card{
 width:90%;
-max-width:500px;
+max-width:600px;
 padding:40px;
 border:1px solid #d4af37;
 border-radius:20px;
@@ -38,6 +38,15 @@ margin-bottom:20px;
 
 #status{
 font-size:24px;
+line-height:1.8;
+}
+
+.success{
+color:#4caf50;
+}
+
+.warning{
+color:#ff9800;
 }
 
 </style>
@@ -65,20 +74,170 @@ const client = window.supabase.createClient(
 
 async function checkIn(){
 
+const status =
+document.getElementById("status");
+
 const memberCode =
 localStorage.getItem("memberCode");
 
 if(!memberCode){
 
-document.getElementById("status").innerText =
-"Member Not Found";
+status.innerHTML =
+"❌ Member Not Found";
 
 return;
 
 }
 
-document.getElementById("status").innerText =
-"Member: " + memberCode;
+const { data, error } =
+await client
+.from("members")
+.select("*")
+.eq("member_code", memberCode)
+.single();
+
+if(error || !data){
+
+status.innerHTML =
+"❌ Member Not Found";
+
+return;
+
+}
+
+const now = new Date();
+
+if(data.last_scan_at){
+
+const lastScan =
+new Date(data.last_scan_at);
+
+const diffHours =
+(now - lastScan) / (1000 * 60 * 60);
+
+if(diffHours < 1){
+
+status.innerHTML =
+"⏳ Check-In already used.<br><br>Please wait 1 hour.";
+
+return;
+
+}
+
+}
+
+let visits =
+data.visits || 0;
+
+let points =
+data.points || 0;
+
+let coupons =
+data.coupons || 0;
+
+const today =
+now.toISOString().split("T")[0];
+
+let firstVisitToday = true;
+
+if(data.last_scan_at){
+
+const lastDay =
+new Date(data.last_scan_at)
+.toISOString()
+.split("T")[0];
+
+if(lastDay === today){
+
+firstVisitToday = false;
+
+}
+
+}
+
+let message = "";
+
+if(firstVisitToday){
+
+visits += 1;
+points += 1;
+
+message =
+"⭐ Daily Point Earned";
+
+}else{
+
+coupons += 1;
+
+message =
+"🎁 Coupon Earned";
+
+}
+
+if(coupons >= 10){
+
+coupons = 0;
+points += 1;
+
+message +=
+"<br><br>🏆 10 Coupons Converted To 1 Point";
+
+}
+
+const updateResult =
+await client
+.from("members")
+.update({
+
+visits: visits,
+
+points: points,
+
+coupons: coupons,
+
+last_scan_at: now.toISOString()
+
+})
+.eq("member_code", memberCode);
+
+if(updateResult.error){
+
+status.innerHTML =
+"❌ Database Update Failed";
+
+return;
+
+}
+
+status.innerHTML =
+
+`
+<div class="success">
+
+✅ Check-In Successful
+
+<br><br>
+
+Member: ${memberCode}
+
+<br><br>
+
+${message}
+
+<br><br>
+
+Visits: ${visits}
+
+<br>
+
+Points: ${points}
+
+<br>
+
+Coupons: ${coupons}
+
+</div>
+`;
 
 }
 
