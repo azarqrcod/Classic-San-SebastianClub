@@ -260,7 +260,11 @@ Loading...
 <a href="#">
 ☕ Club Menu
 </a>
-
+  
+<a href="#" onclick="logout()">
+🚪 Logout
+</a>
+  
 </div>
 
 </div>
@@ -278,9 +282,13 @@ const memberCode =
 localStorage.getItem("memberCode");
 
 
-
 if(!memberCode){
+
+window.location.href =
+"login.html";
+
 return;
+
 }
   
 const { data, error } =
@@ -320,4 +328,12 @@ data.rank || "Bronze";
 
 loadMember();
 
+  function logout(){
+
+localStorage.removeItem("memberCode");
+
+window.location.href =
+"login.html";
+
+}
 </script>
