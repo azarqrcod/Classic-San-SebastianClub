@@ -1,24 +1,235 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Classic San Sebastian Club</title>
+
+<title>Login | CLASSIC SAN SEBASTIAN CLUB</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+rgba(0,0,0,.55),
+rgba(0,0,0,.88)
+),
+url("berlin-bg.png");
+
+background-size:cover;
+background-position:center;
+
+color:white;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+height:100vh;
+}
+
+.card{
+
+width:90%;
+max-width:450px;
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(15px);
+
+border:1px solid rgba(212,175,55,.25);
+
+border-radius:25px;
+
+padding:35px;
+}
+
+h1{
+
+text-align:center;
+
+margin-bottom:25px;
+
+color:#d4af37;
+}
+
+input{
+
+width:100%;
+
+padding:14px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:12px;
+
+outline:none;
+}
+
+button{
+
+width:100%;
+
+padding:14px;
+
+background:#d4af37;
+
+border:none;
+
+border-radius:12px;
+
+font-weight:bold;
+
+cursor:pointer;
+}
+
+button:hover{
+
+opacity:.9;
+}
+
+.link{
+
+margin-top:15px;
+
+text-align:center;
+
+cursor:pointer;
+
+color:#d4af37;
+}
+
+#result{
+
+margin-top:20px;
+
+text-align:center;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<h1>Login</h1>
+<div class="card">
 
-<form>
-<input type="email" placeholder="Email" required>
-<br><br>
+<h1>Member Login</h1>
 
-<input type="password" placeholder="Password" required>
-<br><br>
+<input
+type="email"
+id="email"
+placeholder="Email">
 
-<button type="submit">Login</button>
-</form>
+<input
+type="text"
+id="memberCode"
+placeholder="Member Code">
+
+<button onclick="login()">
+Login
+</button>
+
+<div
+class="link"
+onclick="findCode()">
+Forgot Member Code?
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const client =
+window.supabase.createClient(
+"https://uzecfsxdngdtzwianhir.supabase.co",
+"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+);
+
+async function login(){
+
+const email =
+document.getElementById("email").value;
+
+const memberCode =
+document.getElementById("memberCode").value;
+
+const { data, error } =
+await client
+.from("members")
+.select("*")
+.eq("email", email)
+.eq("member_code", memberCode)
+.single();
+
+if(error || !data){
+
+document.getElementById("result").innerHTML =
+"❌ Member Not Found";
+
+return;
+
+}
+
+localStorage.setItem(
+"memberCode",
+data.member_code
+);
+
+window.location.href =
+"dashboard.html";
+
+}
+
+async function findCode(){
+
+const email =
+prompt("Enter Your Email");
+
+if(!email){
+return;
+}
+
+const { data, error } =
+await client
+.from("members")
+.select("member_code")
+.eq("email", email)
+.single();
+
+if(error || !data){
+
+document.getElementById("result").innerHTML =
+"❌ Email Not Found";
+
+return;
+
+}
+
+document.getElementById("result").innerHTML =
+
+"✅ Your Member Code:<br><br><b>" +
+data.member_code +
+"</b>";
+
+}
+
+</script>
 
 </body>
 </html>
