@@ -1,1 +1,136 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel | CLASSIC SAN SEBASTIAN CLUB</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#000;
+color:white;
+padding:20px;
+}
+
+h1{
+text-align:center;
+color:#d4af37;
+margin-bottom:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:#111;
+border:1px solid #d4af37;
+border-radius:20px;
+padding:25px;
+text-align:center;
+}
+
+.card h2{
+color:#d4af37;
+margin-bottom:10px;
+font-size:18px;
+}
+
+.number{
+font-size:36px;
+font-weight:bold;
+}
+
+.section{
+margin-top:30px;
+background:#111;
+border:1px solid #d4af37;
+border-radius:20px;
+padding:25px;
+}
+
+textarea{
+width:100%;
+height:150px;
+background:#000;
+color:white;
+border:1px solid #d4af37;
+border-radius:10px;
+padding:15px;
+margin-top:15px;
+}
+
+button{
+margin-top:15px;
+padding:12px 25px;
+border:none;
+border-radius:10px;
+background:#d4af37;
+color:black;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>CLASSIC SAN SEBASTIAN CLUB</h1>
+
+<div class="grid">
+
+<div class="card">
+<h2>Members</h2>
+<div class="number">0</div>
+</div>
+
+<div class="card">
+<h2>Check-Ins</h2>
+<div class="number">0</div>
+</div>
+
+<div class="card">
+<h2>Points</h2>
+<div class="number">0</div>
+</div>
+
+<div class="card">
+<h2>Coupons</h2>
+<div class="number">0</div>
+</div>
+
+</div>
+
+<div class="section">
+
+<h2 style="color:#d4af37;">
+☕ Daily Note
+</h2>
+
+<textarea placeholder="Today's Daily Note"></textarea>
+
+<br>
+
+<button>
+Save Daily Note
+</button>
+
+</div>
+
+</body>
+</html>
