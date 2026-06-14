@@ -257,6 +257,31 @@ Loading...
 📷 Share Card
 </a>
 
+  <div class="member-card" id="dailyNoteBox">
+
+<div style="color:#d4af37;font-size:22px;margin-bottom:15px;">
+☕ DAILY NOTE
+</div>
+
+<div id="dailyDate"
+style="margin-bottom:15px;">
+Loading...
+</div>
+
+<div id="dailyMessage"
+style="font-size:18px;line-height:1.8;">
+Loading...
+</div>
+
+<div style="
+margin-top:20px;
+color:#d4af37;
+font-weight:600;">
+CLASSIC SAN SEBASTIAN CLUB<br>
+Berlin
+</div>
+
+  </div>
 <a href="#">
 ☕ Club Menu
 </a>
@@ -326,6 +351,46 @@ document.querySelectorAll(".stat h2")[2].textContent =
 data.rank || "Bronze";
 }
 
+  async function loadDailyNote(){
+
+const today = new Date();
+
+const start =
+new Date(today.getFullYear(),0,0);
+
+const diff =
+today - start;
+
+const oneDay =
+1000 * 60 * 60 * 24;
+
+const dayNumber =
+Math.floor(diff / oneDay);
+
+const { data , error } =
+await client
+.from("daily_notes")
+.select("*")
+.eq("day_number", dayNumber)
+.single();
+
+if(error || !data){
+return;
+}
+
+document.getElementById("dailyDate")
+.innerText =
+today.toLocaleDateString("en-GB",{
+day:"numeric",
+month:"long",
+year:"numeric"
+});
+
+document.getElementById("dailyMessage")
+.innerText =
+data.message;
+
+  }
 loadMember();
 
   function logout(){
