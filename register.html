@@ -218,6 +218,11 @@ type="text"
 id="phone"
 placeholder="Phone (Optional)">
 
+  <input
+type="date"
+id="birthday"
+required>
+  
 <button
 type="submit"
 class="registerBtn">
@@ -281,6 +286,10 @@ const phone =
 document.getElementById("phone")
 .value.trim();
 
+  const birthday =
+document.getElementById("birthday")
+.value;
+  
 const memberCode =
 "az" +
 Math.floor(
@@ -334,6 +343,8 @@ email:email,
 
 phone:phone,
 
+  birthday:birthday,
+  
 photo_url:photoUrl,
 
 member_code:memberCode,
@@ -370,8 +381,8 @@ localStorage.setItem(
 "memberPhoto",
 photoUrl
 );
-
-window.location.href =
+  
+.value;location.href =
 "dashboard.html";
 
 }
