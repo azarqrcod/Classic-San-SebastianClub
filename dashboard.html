@@ -281,6 +281,27 @@ CLASSIC SAN SEBASTIAN CLUB<br>
 Berlin
 </div>
 
+  <div class="member-card" id="birthdayBox">
+
+<div style="color:#d4af37;font-size:22px;margin-bottom:15px;">
+🎂 BIRTHDAY COUNTDOWN
+</div>
+
+<div id="birthdayDays"
+style="font-size:42px;font-weight:700;color:#d4af37;">
+Loading...
+</div>
+
+<div style="margin-top:10px;font-size:18px;">
+Days Left
+</div>
+
+<div id="birthdayDate"
+style="margin-top:15px;color:#ccc;">
+Loading...
+</div>
+
+  </div>  
   </div>
 <a href="#">
 ☕ Club Menu
@@ -392,7 +413,78 @@ data.message;
   }
 loadMember();
 loadDailyNote();
-  
+  loadBirthday();
+
+  async function loadBirthday(){
+
+const memberCode =
+localStorage.getItem("memberCode");
+
+const { data , error } =
+await client
+.from("members")
+.select("birthday")
+.eq("member_code", memberCode)
+.single();
+
+if(error || !data || !data.birthday){
+return;
+}
+
+const today = new Date();
+
+const birth = new Date(data.birthday);
+
+let nextBirthday =
+new Date(
+today.getFullYear(),
+birth.getMonth(),
+birth.getDate()
+);
+
+if(nextBirthday < today){
+
+nextBirthday =
+new Date(
+today.getFullYear()+1,
+birth.getMonth(),
+birth.getDate()
+);
+
+}
+
+const diff =
+nextBirthday - today;
+
+const daysLeft =
+Math.ceil(
+diff / (1000*60*60*24)
+);
+
+document.getElementById("birthdayDays")
+.innerText = daysLeft;
+
+document.getElementById("birthdayDate")
+.innerText =
+birth.toLocaleDateString(
+"en-GB",
+{
+day:"numeric",
+month:"long"
+}
+);
+
+if(daysLeft === 0){
+
+document.getElementById("birthdayDays")
+.innerText = "🎉";
+
+document.getElementById("birthdayDate")
+.innerText =
+"Happy Birthday! Your Surprise Awaits";
+}
+
+  }
   function logout(){
 
 localStorage.removeItem("memberCode");
