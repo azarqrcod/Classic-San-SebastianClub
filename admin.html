@@ -248,5 +248,83 @@ Save Announcement
 
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const client = window.supabase.createClient(
+"https://uzecfsxdngdtzwianhir.supabase.co",
+"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+);
+
+document
+.getElementById("searchBtn")
+.addEventListener(
+"click",
+async ()=>{
+
+const value =
+document
+.getElementById("searchMember")
+.value
+.trim();
+
+if(!value) return;
+
+const { data,error } =
+await client
+.from("members")
+.select("*")
+.or(
+`email.eq.${value},
+member_code.eq.${value},
+phone.eq.${value}`
+)
+.limit(1);
+
+if(error){
+
+document
+.getElementById("memberResult")
+.innerHTML =
+error.message;
+
+return;
+
+}
+
+if(!data || data.length===0){
+
+document
+.getElementById("memberResult")
+.innerHTML =
+"Member not found";
+
+return;
+
+}
+
+const m = data[0];
+
+document
+.getElementById("memberResult")
+.innerHTML =
+
+`
+<b>Name:</b> ${m.name}<br>
+<b>Code:</b> ${m.member_code}<br>
+<b>Email:</b> ${m.email || "-"}<br>
+<b>Phone:</b> ${m.phone || "-"}<br>
+<b>Birthday:</b> ${m.birthday || "-"}<br>
+<b>Rank:</b> ${m.rank}<br>
+<b>Points:</b> ${m.points}<br>
+<b>Visits:</b> ${m.visits}
+`;
+
+}
+);
+
+</script>
+  
 </body>
 </html>
