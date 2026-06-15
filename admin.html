@@ -271,15 +271,11 @@ document
 
 if(!value) return;
 
-const { data,error } =
+  const { data, error } =
 await client
 .from("members")
 .select("*")
-.or(
-`email.eq.${value},
-member_code.eq.${value},
-phone.eq.${value}`
-)
+.or(`email.eq.${value},member_code.eq.${value},phone.eq.${value}`)
 .limit(1);
 
 if(error){
