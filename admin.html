@@ -96,7 +96,7 @@ cursor:pointer;
 
 <div class="card">
 <h2>Members</h2>
-<div class="number">0</div>
+<div class="number" id="memberCount">0</div>
 </div>
 
 <div class="card">
@@ -256,6 +256,22 @@ const client = window.supabase.createClient(
 "https://uzecfsxdngdtzwianhir.supabase.co",
 "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
 );
+
+  async function loadMemberCount(){
+
+const { count, error } =
+await client
+.from("members")
+.select("*", { count: "exact", head: true });
+
+if(error) return;
+
+document.getElementById("memberCount").innerText =
+count;
+
+}
+
+loadMemberCount();
 
 document
 .getElementById("searchBtn")
