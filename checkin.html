@@ -199,6 +199,14 @@ last_scan_at: now.toISOString()
 .select();
 
 alert(JSON.stringify(updateResult));
+
+const verify =
+await client
+.from("members")
+.select("*")
+.eq("member_code", memberCode);
+
+alert(JSON.stringify(verify));
   
 console.log("UPDATE RESULT");
 console.log(updateResult);
