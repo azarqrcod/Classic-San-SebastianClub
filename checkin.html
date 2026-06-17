@@ -195,7 +195,8 @@ coupons: coupons,
 last_scan_at: now.toISOString()
 
 })
-.eq("member_code", memberCode);
+.eq("member_code", memberCode)
+.select();
 
   console.log(updateResult);
 alert(JSON.stringify(updateResult));
