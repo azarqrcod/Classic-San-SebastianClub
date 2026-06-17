@@ -184,21 +184,21 @@ message +=
 
 }
 
-const updateResult =
+  const updateResult =
 await client
 .from("members")
 .update({
 
 visits: visits,
-
 points: points,
-
 coupons: coupons,
-
 last_scan_at: now.toISOString()
 
 })
 .eq("member_code", memberCode);
+
+console.log("UPDATE RESULT");
+console.log(updateResult);
 
 if(updateResult.error){
 
