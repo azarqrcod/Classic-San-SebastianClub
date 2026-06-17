@@ -8,6 +8,7 @@
 <title>Café QR</title>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -56,6 +57,12 @@ font-weight:600;
 text-align:center;
 }
 
+.timer{
+margin-top:15px;
+font-size:18px;
+color:#aaa;
+}
+
 </style>
 
 </head>
@@ -72,15 +79,117 @@ CLASSIC SAN SEBASTIAN CLUB
 SCAN TO CHECK-IN
 </div>
 
+<div class="timer" id="timer">
+Loading...
+</div>
+
 <script>
+
+const client = window.supabase.createClient(
+"https://uzecfsxdngdtzwianhir.supabase.co",
+"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+);
+
+let expiresAt = null;
+
+async function generateQR(){
+
+const now =
+new Date().toISOString();
+
+const { data: activeToken } =
+await client
+.from("checkin_tokens")
+.select("*")
+.eq("is_used",false)
+.gt("expires_at",now)
+.order("created_at",{ascending:false})
+.limit(1)
+.maybeSingle();
+
+let token;
+
+if(activeToken){
+
+token = activeToken.token;
+expiresAt = activeToken.expires_at;
+
+}else{
+
+token = crypto.randomUUID();
+
+expiresAt =
+new Date(
+Date.now() + 60 * 60 * 1000
+).toISOString();
+
+await client
+.from("checkin_tokens")
+.insert({
+
+token:token,
+
+expires_at:expiresAt,
+
+is_used:false
+
+});
+
+}
+
+const qrUrl =
+"https://azarqrcod.github.io/Classic-San-SebastianClub/checkin.html?token="
++ token;
 
 QRCode.toCanvas(
 document.getElementById("qrcode"),
-"CLASSIC-SAN-SEBASTIAN-CHECKIN",
+qrUrl,
 {
 width:700,
 margin:2
 }
+);
+
+}
+
+function updateTimer(){
+
+if(!expiresAt) return;
+
+const diff =
+new Date(expiresAt) - new Date();
+
+if(diff <= 0){
+
+document.getElementById("timer")
+.innerText =
+"Generating New QR...";
+
+location.reload();
+
+return;
+
+}
+
+const mins =
+Math.floor(diff / 60000);
+
+const secs =
+Math.floor((diff % 60000)/1000);
+
+document.getElementById("timer")
+.innerText =
+"QR Refresh In: "
++ mins + "m "
++ secs + "s";
+
+}
+
+generateQR();
+
+setInterval(
+updateTimer,
+1000
 );
 
 </script>
