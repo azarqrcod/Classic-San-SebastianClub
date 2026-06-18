@@ -89,6 +89,47 @@ return;
 
 }
 
+
+  const token =
+new URLSearchParams(window.location.search)
+.get("token");
+
+if(!token){
+
+status.innerHTML =
+"❌ Invalid QR";
+
+return;
+
+}
+
+const { data: tokenData } =
+await client
+.from("checkin_tokens")
+.select("*")
+.eq("token", token)
+.maybeSingle();
+
+if(!tokenData){
+
+status.innerHTML =
+"❌ Invalid QR";
+
+return;
+
+}
+
+if(
+new Date(tokenData.expires_at)
+< new Date()
+){
+
+status.innerHTML =
+"❌ QR Expired";
+
+return;
+
+}
 const { data, error } =
 await client
 .from("members")
@@ -198,7 +239,7 @@ last_scan_at: now.toISOString()
 .eq("member_code", memberCode)
 .select();
 
-alert(JSON.stringify(updateResult));
+alert(JSON.stringify(verify));
 
 const updateResult =
 await client
