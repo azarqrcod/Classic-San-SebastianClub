@@ -285,6 +285,18 @@ document.getElementById("staffBox")
 
 }
 
+const memberCode =
+localStorage.getItem("memberCode");
+
+if(!memberCode){
+
+window.location.href =
+"login.html";
+
+return;
+
+}
+  
 loadReward();
 
 </script>
