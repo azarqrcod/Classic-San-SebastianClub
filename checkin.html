@@ -60,7 +60,7 @@ color:#ff9800;
 <h1>CLASSIC SAN SEBASTIAN CLUB</h1>
 
 <div id="status">
-AZAR TEST 999
+Checking Member...
 </div>
 
 </div>
@@ -200,16 +200,28 @@ last_scan_at: now.toISOString()
 
 alert(JSON.stringify(updateResult));
 
-const verify =
+const updateResult =
 await client
 .from("members")
-.select("*")
-.eq("member_code", memberCode);
+.update({
 
-alert(JSON.stringify(verify));
-  
-console.log("UPDATE RESULT");
-console.log(updateResult);
+visits: visits,
+points: points,
+coupons: coupons,
+last_scan_at: now.toISOString()
+
+})
+.eq("member_code", memberCode)
+.select();
+
+if(updateResult.error){
+
+status.innerHTML =
+"❌ Database Update Failed";
+
+return;
+
+}
 
 if(updateResult.error){
 
