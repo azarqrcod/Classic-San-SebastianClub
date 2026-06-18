@@ -9,6 +9,8 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 *{
@@ -42,84 +44,45 @@ padding:20px;
 
 .card{
 
-width:90%;
-max-width:700px;
+width:100%;
+max-width:420px;
 
-background:rgba(0,0,0,.55);
+background:rgba(0,0,0,.45);
 
-backdrop-filter:blur(12px);
+backdrop-filter:blur(10px);
 
-border:2px solid #d4af37;
+border:2px solid rgba(212,175,55,.4);
 
 border-radius:30px;
 
-padding:40px;
+padding:30px;
 
 text-align:center;
 
 color:white;
+
+box-shadow:
+0 0 30px rgba(212,175,55,.15);
+
 }
 
-h1{
-
-color:#d4af37;
-
-font-size:48px;
-
-font-weight:800;
-
-margin-bottom:25px;
-}
-
-.member{
-
-font-size:34px;
-
-font-weight:700;
-
-margin-bottom:15px;
-}
-
-.code{
-
-font-size:22px;
-
-color:#d4af37;
-
-margin-bottom:25px;
-}
-
-.rank{
+.logo-title{
 
 font-size:28px;
 
-margin-bottom:15px;
-}
-
-.points{
-
-font-size:40px;
-
-font-weight:700;
+font-weight:800;
 
 color:#d4af37;
 
-margin-bottom:30px;
-}
+line-height:1.2;
 
-.club{
-
-font-size:20px;
-
-line-height:1.8;
-
-opacity:.9;
+margin-bottom:20px;
 }
 
 .avatar{
 
-width:160px;
-height:160px;
+width:130px;
+height:130px;
 
 border-radius:50%;
 
@@ -127,23 +90,73 @@ object-fit:cover;
 
 border:4px solid #d4af37;
 
-margin:20px auto;
+margin:15px auto;
 
 display:block;
 
-box-shadow:0 0 25px rgba(212,175,55,.35);
+box-shadow:
+0 0 20px rgba(212,175,55,.35);
 
 }
-  
+
+.member{
+
+font-size:28px;
+
+font-weight:700;
+
+margin-top:10px;
+}
+
+.code{
+
+font-size:18px;
+
+color:#d4af37;
+
+margin-top:8px;
+}
+
+.rank{
+
+font-size:18px;
+
+margin-top:15px;
+
+opacity:.9;
+}
+
+.points{
+
+font-size:34px;
+
+font-weight:800;
+
+color:#d4af37;
+
+margin-top:20px;
+}
+
+.club{
+
+margin-top:25px;
+
+font-size:16px;
+
+line-height:1.8;
+
+opacity:.9;
+}
+
 .buttons{
 
-margin-top:30px;
+margin-top:25px;
 
 display:flex;
 
 justify-content:center;
 
-gap:15px;
+gap:12px;
 
 flex-wrap:wrap;
 }
@@ -156,11 +169,11 @@ color:black;
 
 border:none;
 
-padding:15px 25px;
+padding:14px 22px;
 
-border-radius:15px;
+border-radius:12px;
 
-font-size:16px;
+font-size:15px;
 
 font-weight:700;
 
@@ -180,33 +193,42 @@ opacity:.9;
 
 <div class="card">
 
-<h1>
-CLASSIC SAN SEBASTIAN CLUB
-</h1>
+<div class="logo-title">
+CLASSIC SAN<br>
+SEBASTIAN CLUB
+</div>
 
 <img
 id="memberPhoto"
 class="avatar"
 src="logo.png">
-  
-<div class="member" id="memberName">
+
+<div
+class="member"
+id="memberName">
 Member
 </div>
 
-<div class="code" id="memberCode">
+<div
+class="code"
+id="memberCode">
 AZ0000
 </div>
 
-<div class="rank" id="memberRank">
+<div
+class="rank"
+id="memberRank">
 Bronze Member
 </div>
 
-<div class="points" id="memberPoints">
+<div
+class="points"
+id="memberPoints">
 ⭐ 0 Points
 </div>
 
 <div class="club">
-Berlin<br>
+📍 Berlin<br>
 Classic San Sebastian Club
 </div>
 
@@ -215,7 +237,7 @@ Classic San Sebastian Club
 <div class="buttons">
 
 <button onclick="downloadCard()">
-⬇ Download Card
+⬇ Download
 </button>
 
 <button onclick="shareCard()">
@@ -224,13 +246,12 @@ Classic San Sebastian Club
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 
-const client = window.supabase.createClient(
+const client =
+window.supabase.createClient(
 "https://uzecfsxdngdtzwianhir.supabase.co",
-"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+`"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC" `
 );
 
 async function loadMember(){
@@ -261,13 +282,6 @@ return;
 document.getElementById("memberName").innerText =
 data.name || "Member";
 
-if(data.photo_url){
-
-document.getElementById("memberPhoto").src =
-data.photo_url;
-
-}
-  
 document.getElementById("memberCode").innerText =
 data.member_code || "";
 
@@ -277,20 +291,20 @@ document.getElementById("memberRank").innerText =
 document.getElementById("memberPoints").innerText =
 "⭐ " + (data.points || 0) + " Points";
 
+if(data.photo_url){
+
+document.getElementById("memberPhoto").src =
+data.photo_url;
+
+}
+
 }
 
 function downloadCard(){
 
-const link =
-document.createElement("a");
-
-link.href =
-"cafe-share-bg.jpg";
-
-link.download =
-"CLASSIC-SAN-SEBASTIAN-CLUB.jpg";
-
-link.click();
+alert(
+"PNG export will be added next"
+);
 
 }
 
@@ -298,18 +312,23 @@ async function shareCard(){
 
 if(navigator.share){
 
-navigator.share({
+try{
+
+await navigator.share({
 
 title:
 "CLASSIC SAN SEBASTIAN CLUB",
 
 text:
-"Join The Club",
-
-url:
-window.location.href
+"Member Of Classic San Sebastian Club"
 
 });
+
+}catch(error){
+
+console.log(error);
+
+}
 
 }else{
 
