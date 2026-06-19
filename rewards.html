@@ -19,98 +19,58 @@ font-family:Poppins,sans-serif;
 }
 
 body{
-
 background:#000;
 color:white;
-
 display:flex;
 justify-content:center;
 align-items:center;
-
 min-height:100vh;
-
 padding:20px;
 }
 
 .card{
-
 width:100%;
 max-width:600px;
-
 background:#111;
-
 border:1px solid rgba(212,175,55,.3);
-
 border-radius:25px;
-
 padding:40px;
-
 text-align:center;
 }
 
 h1{
-
 color:#d4af37;
-
 margin-bottom:25px;
 }
 
 .points{
-
 font-size:48px;
-
 font-weight:700;
-
 color:#d4af37;
-
 margin-bottom:20px;
 }
 
 .message{
-
 font-size:20px;
-
 line-height:1.8;
-
 margin-bottom:25px;
 }
 
 button{
-
 background:#d4af37;
-
 color:black;
-
 border:none;
-
 padding:15px 25px;
-
 border-radius:12px;
-
 font-weight:700;
-
 font-size:16px;
-
 cursor:pointer;
-
 margin-top:15px;
-}
-
-.staff{
-
-margin-top:25px;
-
-padding-top:20px;
-
-border-top:1px solid rgba(255,255,255,.15);
 }
 
 .note{
-
-margin-top:15px;
-
-font-size:14px;
-
+margin-top:12px;
+font-size:13px;
 color:#aaa;
 }
 
@@ -129,7 +89,7 @@ color:#aaa;
 <div
 class="points"
 id="points">
-0
+Loading...
 </div>
 
 <div
@@ -149,42 +109,6 @@ onclick="claimReward()">
 
 <div
 id="staffBox"
-style="
-display:none;
-margin-top:20px;
-">
-
-<button
-onclick="staffConfirm()">
-
-🔒 Staff Confirmation
-
-</button>
-
-<div style="
-margin-top:10px;
-font-size:13px;
-color:#999;
-">
-
-Staff Only
-
-</div>
-
-</div>
-  
-<button
-id="claimBtn"
-style="display:none"
-onclick="claimReward()">
-
-🎁 Claim Reward
-
-</button>
-
-<div
-class="staff"
-id="staffBox"
 style="display:none">
 
 <button
@@ -195,9 +119,7 @@ onclick="staffConfirm()">
 </button>
 
 <div class="note">
-
 Staff Only
-
 </div>
 
 </div>
@@ -205,7 +127,7 @@ Staff Only
 </div>
 
 <script>
-  
+
 const client = window.supabase.createClient(
 "https://uzecfsxdngdtzwianhir.supabase.co",
 "sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
@@ -218,6 +140,15 @@ async function loadReward(){
 const memberCode =
 localStorage.getItem("memberCode");
 
+if(!memberCode){
+
+window.location.href =
+"login.html";
+
+return;
+
+}
+
 const { data } =
 await client
 .from("members")
@@ -225,7 +156,15 @@ await client
 .eq("member_code",memberCode)
 .single();
 
-if(!data) return;
+if(!data){
+
+document.getElementById("message")
+.innerText =
+"Member Not Found";
+
+return;
+
+}
 
 currentPoints =
 data.points || 0;
@@ -241,9 +180,7 @@ const remain =
 
 document.getElementById("message")
 .innerHTML =
-
-remain +
-" Points Until Your Guest Reward";
+remain + " Points Until Your Guest Reward";
 
 return;
 
@@ -252,86 +189,11 @@ return;
 document.getElementById("message")
 .innerHTML =
 
-"🎉 Congratulations!<br><br>You are eligible for a guest reward.";
+"🎉 Congratulations!<br><br>You are eligible for a free guest reward.";
 
 document.getElementById("claimBtn")
-.style.display = "inline-block";
-
-document.getElementById("claimBtn")
-.style.display = "inline-block";
-
-}
-
-function claimReward(){
-
-document.getElementById("message")
-.innerHTML =
-
-"Reward Requested<br><br>Please show this screen to our team.";
-
-document.getElementById("claimBtn")
-.style.display = "none";
-
-document.getElementById("staffBox")
-.style.display = "block";
-
-}
-
-async function staffConfirm(){
-
-const pin =
-prompt(
-"Enter Staff PIN"
-);
-
-if(pin !== "5814"){
-
-alert(
-"Wrong PIN"
-);
-
-return;
-
-}
-
-const memberCode =
-localStorage.getItem("memberCode");
-
-const newPoints =
-currentPoints - 10;
-
-await client
-.from("members")
-.update({
-
-points:newPoints
-
-})
-.eq("member_code",memberCode);
-
-document.getElementById("message")
-.innerHTML =
-
-"☕ Reward Confirmed<br><br>Thank you for visiting CLASSIC SAN SEBASTIAN CLUB";
-
-document.getElementById("points")
-.innerText =
-"⭐ " + newPoints;
-
-document.getElementById("staffBox")
-.style.display = "none";
-
-}
-
-const memberCode =
-localStorage.getItem("memberCode");
-
-if(!memberCode){
-
-window.location.href =
-"login.html";
-
-return;
+.style.display =
+"inline-block";
 
 }
 
@@ -343,10 +205,12 @@ document.getElementById("message")
 "🎉 You are our guest today.<br><br>Please show this screen to our team.";
 
 document.getElementById("claimBtn")
-.style.display = "none";
+.style.display =
+"none";
 
 document.getElementById("staffBox")
-.style.display = "block";
+.style.display =
+"block";
 
 }
 
@@ -386,10 +250,14 @@ document.getElementById("message")
 "☕ Reward Confirmed<br><br>Thank you for visiting CLASSIC SAN SEBASTIAN CLUB";
 
 document.getElementById("staffBox")
-.style.display = "none";
+.style.display =
+"none";
+
+currentPoints =
+newPoints;
 
 }
-  
+
 loadReward();
 
 </script>
