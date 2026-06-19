@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Club Menu | CLASSIC SAN SEBASTIAN CLUB</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#000;
+color:white;
+min-height:100vh;
+padding:30px 20px;
+}
+
+.logo{
+text-align:center;
+font-size:34px;
+font-weight:700;
+color:#d4af37;
+margin-bottom:40px;
+text-shadow:0 0 20px rgba(212,175,55,.6);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr;
+gap:25px;
+max-width:900px;
+margin:auto;
+}
+
+.card{
+position:relative;
+height:220px;
+border-radius:25px;
+overflow:hidden;
+border:1px solid rgba(212,175,55,.3);
+text-decoration:none;
+color:white;
+}
+
+.card img{
+width:100%;
+height:100%;
+object-fit:cover;
+transition:.6s;
+}
+
+.card:hover img{
+transform:scale(1.08);
+}
+
+.overlay{
+position:absolute;
+inset:0;
+background:linear-gradient(
+to top,
+rgba(0,0,0,.85),
+rgba(0,0,0,.2)
+);
+display:flex;
+align-items:flex-end;
+padding:25px;
+}
+
+.title{
+font-size:28px;
+font-weight:700;
+color:#d4af37;
+}
+
+.subtitle{
+font-size:14px;
+color:#ddd;
+margin-top:5px;
+}
+
+.footer{
+text-align:center;
+margin-top:40px;
+color:#888;
+font-size:13px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="logo">
+
+CLASSIC SAN SEBASTIAN CLUB
+
+</div>
+
+<div class="grid">
+
+<a
+class="card"
+href="cheesecake.html">
+
+<img
+src="images/cheesecake/main.jpg">
+
+<div class="overlay">
+
+<div>
+
+<div class="title">
+🍰 Cheesecake
+</div>
+
+<div class="subtitle">
+Premium Selection
+</div>
+
+</div>
+
+</div>
+
+</a>
+
+<a
+class="card"
+href="hot-drinks.html">
+
+<img
+src="images/coffee/main.jpg">
+
+<div class="overlay">
+
+<div>
+
+<div class="title">
+☕ Hot Drinks
+</div>
+
+<div class="subtitle">
+Coffee & Tea
+</div>
+
+</div>
+
+</div>
+
+</a>
+
+<a
+class="card"
+href="cold-drinks.html">
+
+<img
+src="images/cold-drinks/main.jpg">
+
+<div class="overlay">
+
+<div>
+
+<div class="title">
+🧊 Cold Drinks
+</div>
+
+<div class="subtitle">
+Iced Coffee & Refreshments
+</div>
+
+</div>
+
+</div>
+
+</a>
+
+<a
+class="card"
+href="cocktails.html">
+
+<img
+src="images/cocktails/main.jpg">
+
+<div class="overlay">
+
+<div>
+
+<div class="title">
+🍹 Cocktails & Signature
+</div>
+
+<div class="subtitle">
+Special Drinks Collection
+</div>
+
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+<div class="footer">
+
+CLASSIC SAN SEBASTIAN CLUB • Berlin
+
+</div>
+
+</body>
+</html>
