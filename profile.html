@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profile | CLASSIC SAN SEBASTIAN CLUB</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#000;
+color:white;
+min-height:100vh;
+padding:25px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+}
+
+.title{
+text-align:center;
+font-size:32px;
+font-weight:800;
+color:#d4af37;
+margin-bottom:30px;
+}
+
+.card{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(212,175,55,.25);
+border-radius:25px;
+padding:30px;
+margin-bottom:25px;
+backdrop-filter:blur(15px);
+}
+
+.profile-top{
+text-align:center;
+}
+
+.avatar{
+width:140px;
+height:140px;
+border-radius:50%;
+object-fit:cover;
+border:4px solid #d4af37;
+margin-bottom:20px;
+}
+
+.name{
+font-size:30px;
+font-weight:700;
+}
+
+.code{
+color:#d4af37;
+margin-top:10px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.stat{
+background:rgba(255,255,255,.04);
+border-radius:18px;
+padding:20px;
+text-align:center;
+}
+
+.stat h2{
+color:#d4af37;
+font-size:32px;
+margin-bottom:8px;
+}
+
+.label{
+color:#bbb;
+font-size:14px;
+}
+
+.info-row{
+padding:15px 0;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.info-row:last-child{
+border-bottom:none;
+}
+
+.info-title{
+color:#d4af37;
+font-size:14px;
+margin-bottom:5px;
+}
+
+.info-value{
+font-size:18px;
+}
+
+.btn{
+display:block;
+text-align:center;
+text-decoration:none;
+background:#d4af37;
+color:black;
+font-weight:700;
+padding:16px;
+border-radius:15px;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="title">
+👤 Member Profile
+</div>
+
+<div class="card profile-top">
+
+<img
+id="memberPhoto"
+class="avatar"
+src="logo.png">
+
+<div
+id="memberName"
+class="name">
+Loading...
+</div>
+
+<div
+id="memberCode"
+class="code">
+Loading...
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="grid">
+
+<div class="stat">
+<h2 id="visits">0</h2>
+<div class="label">Visits</div>
+</div>
+
+<div class="stat">
+<h2 id="points">0</h2>
+<div class="label">Points</div>
+</div>
+
+<div class="stat">
+<h2 id="rank">Bronze</h2>
+<div class="label">Rank</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="info-row">
+<div class="info-title">Birthday</div>
+<div id="birthday" class="info-value">
+Not Set
+</div>
+</div>
+
+<div class="info-row">
+<div class="info-title">Email</div>
+<div id="email" class="info-value">
+Not Set
+</div>
+</div>
+
+<div class="info-row">
+<div class="info-title">Membership</div>
+<div class="info-value">
+CLASSIC SAN SEBASTIAN CLUB
+</div>
+</div>
+
+</div>
+
+<a href="dashboard.html" class="btn">
+← Back To Dashboard
+</a>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const client = window.supabase.createClient(
+"https://uzecfsxdngdtzwianhir.supabase.co",
+"sb_publishable_FinqG9Dt2uZSQ-ZaoyALWA_qaSuaRpC"
+);
+
+async function loadProfile(){
+
+const memberCode =
+localStorage.getItem("memberCode");
+
+if(!memberCode){
+
+window.location.href =
+"login.html";
+
+return;
+}
+
+const { data , error } =
+await client
+.from("members")
+.select("*")
+.eq("member_code",memberCode)
+.single();
+
+if(error){
+console.log(error);
+return;
+}
+
+document.getElementById("memberName").innerText =
+data.name || "Member";
+
+document.getElementById("memberCode").innerText =
+data.member_code || "-";
+
+document.getElementById("visits").innerText =
+data.visits || 0;
+
+document.getElementById("points").innerText =
+data.points || 0;
+
+document.getElementById("rank").innerText =
+data.rank || "Bronze";
+
+document.getElementById("birthday").innerText =
+data.birthday || "Not Set";
+
+document.getElementById("email").innerText =
+data.email || "Not Set";
+
+if(data.photo_url){
+
+document.getElementById("memberPhoto").src =
+data.photo_url;
+
+}
+
+}
+
+loadProfile();
+
+</script>
+
+</body>
+</html>
