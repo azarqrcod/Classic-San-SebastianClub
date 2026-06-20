@@ -1,221 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Profile | CLASSIC SAN SEBASTIAN CLUB</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Profile | CLASSIC SAN SEBASTIAN CLUB</title><style>
 
 body{
 background:#000;
 color:white;
-min-height:100vh;
-padding:25px;
-}
-
-.container{
-max-width:900px;
-margin:auto;
-}
-
-.title{
+font-family:Poppins,sans-serif;
+padding:30px;
 text-align:center;
-font-size:32px;
-font-weight:800;
-color:#d4af37;
-margin-bottom:30px;
 }
 
 .card{
-background:rgba(255,255,255,.05);
-border:1px solid rgba(212,175,55,.25);
-border-radius:25px;
+max-width:700px;
+margin:auto;
+background:#111;
 padding:30px;
-margin-bottom:25px;
-backdrop-filter:blur(15px);
+border-radius:20px;
+border:1px solid #d4af37;
 }
 
-.profile-top{
-text-align:center;
+h1{
+color:#d4af37;
 }
 
 .avatar{
-width:140px;
-height:140px;
+width:120px;
+height:120px;
 border-radius:50%;
+border:3px solid #d4af37;
 object-fit:cover;
-border:4px solid #d4af37;
 margin-bottom:20px;
 }
 
-.name{
-font-size:30px;
-font-weight:700;
-}
-
-.code{
-color:#d4af37;
-margin-top:10px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:20px;
-margin-top:20px;
-}
-
-.stat{
-background:rgba(255,255,255,.04);
-border-radius:18px;
-padding:20px;
-text-align:center;
-}
-
-.stat h2{
-color:#d4af37;
-font-size:32px;
-margin-bottom:8px;
-}
-
-.label{
-color:#bbb;
-font-size:14px;
-}
-
-.info-row{
-padding:15px 0;
-border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.info-row:last-child{
-border-bottom:none;
-}
-
-.info-title{
-color:#d4af37;
-font-size:14px;
-margin-bottom:5px;
-}
-
-.info-value{
+.info{
+margin:15px 0;
 font-size:18px;
 }
 
 .btn{
-display:block;
-text-align:center;
-text-decoration:none;
+display:inline-block;
+margin-top:20px;
+padding:12px 20px;
 background:#d4af37;
 color:black;
-font-weight:700;
-padding:16px;
-border-radius:15px;
-margin-top:20px;
+text-decoration:none;
+border-radius:12px;
+font-weight:bold;
 }
 
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="title">
-👤 Member Profile
-</div>
-
-<div class="card profile-top">
-
-<img
+</style></head><body><div class="card"><img
 id="memberPhoto"
 class="avatar"
 src="logo.png">
 
-<div
-id="memberName"
-class="name">
+<h1 id="memberName">
 Loading...
-</div>
-
-<div
+</h1><div
 id="memberCode"
-class="code">
+class="info">
 Loading...
-</div>
+</div><div
+id="memberPoints"
+class="info">
+Points: 0
+</div><div
+id="memberVisits"
+class="info">
+Visits: 0
+</div><a
+href="dashboard.html"
+class="btn">
 
-</div>
+Back To Dashboard
 
-<div class="card">
-
-<div class="grid">
-
-<div class="stat">
-<h2 id="visits">0</h2>
-<div class="label">Visits</div>
-</div>
-
-<div class="stat">
-<h2 id="points">0</h2>
-<div class="label">Points</div>
-</div>
-
-<div class="stat">
-<h2 id="rank">Bronze</h2>
-<div class="label">Rank</div>
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="info-row">
-<div class="info-title">Birthday</div>
-<div id="birthday" class="info-value">
-Not Set
-</div>
-</div>
-
-<div class="info-row">
-<div class="info-title">Email</div>
-<div id="email" class="info-value">
-Not Set
-</div>
-</div>
-
-<div class="info-row">
-<div class="info-title">Membership</div>
-<div class="info-value">
-CLASSIC SAN SEBASTIAN CLUB
-</div>
-</div>
-
-</div>
-
-<a href="dashboard.html" class="btn">
-← Back To Dashboard
-</a>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
+</a></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
 const client = window.supabase.createClient(
 "https://uzecfsxdngdtzwianhir.supabase.co",
@@ -233,44 +91,38 @@ window.location.href =
 "login.html";
 
 return;
+
 }
 
-const { data , error } =
+const { data } =
 await client
 .from("members")
 .select("*")
 .eq("member_code",memberCode)
 .single();
 
-if(error){
-console.log(error);
-return;
-}
+if(!data) return;
 
-document.getElementById("memberName").innerText =
+document.getElementById("memberName")
+.innerText =
 data.name || "Member";
 
-document.getElementById("memberCode").innerText =
-data.member_code || "-";
+document.getElementById("memberCode")
+.innerText =
+data.member_code || "";
 
-document.getElementById("visits").innerText =
-data.visits || 0;
+document.getElementById("memberPoints")
+.innerText =
+"Points: " + (data.points || 0);
 
-document.getElementById("points").innerText =
-data.points || 0;
-
-document.getElementById("rank").innerText =
-data.rank || "Bronze";
-
-document.getElementById("birthday").innerText =
-data.birthday || "Not Set";
-
-document.getElementById("email").innerText =
-data.email || "Not Set";
+document.getElementById("memberVisits")
+.innerText =
+"Visits: " + (data.visits || 0);
 
 if(data.photo_url){
 
-document.getElementById("memberPhoto").src =
+document.getElementById("memberPhoto")
+.src =
 data.photo_url;
 
 }
@@ -279,7 +131,5 @@ data.photo_url;
 
 loadProfile();
 
-</script>
-
-</body>
+</script></body>
 </html>
