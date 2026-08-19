@@ -1,4 +1,4 @@
-const CACHE='cssc-v2';
+const CACHE='cssc-v3';
 const CORE=['./','./index.html','./login.html','./register.html','./install.html','./dashboard.html','./profile.html','./rewards.html','./share-card.html','./club-menu.html','./logo.png','./berlin-bg.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).catch(()=>{}));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});
