@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080706">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Install App | CLASSIC SAN SEBASTIAN CLUB</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#d4af37;--gold2:#f3d774;--line:rgba(212,175,55,.28);--muted:#b9b1a5}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,sans-serif;color:#fff;min-height:100vh;padding:22px;display:flex;align-items:center;justify-content:center;background:linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.88)),url('berlin-bg.png') center/cover fixed no-repeat;background-color:#070605}
+.card{width:min(560px,100%);padding:30px 24px;border-radius:30px;background:linear-gradient(145deg,rgba(24,21,16,.82),rgba(7,7,7,.78));border:1px solid var(--line);box-shadow:0 25px 70px rgba(0,0,0,.5),0 0 42px rgba(212,175,55,.08);backdrop-filter:blur(20px);text-align:center}
+.logo{width:118px;filter:drop-shadow(0 0 22px rgba(212,175,55,.23))}
+h1{font-size:30px;margin-top:10px}.gold{color:var(--gold2)}.lead{color:#e5dfd5;line-height:1.75;margin:14px auto 22px;max-width:430px}.gate{padding:14px 16px;border:1px solid rgba(212,175,55,.18);background:rgba(255,255,255,.035);border-radius:18px;color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:18px}.btn{width:100%;border:0;border-radius:17px;padding:16px 18px;background:linear-gradient(135deg,#f2d66f,#b98c18);color:#0a0906;font:800 16px Poppins,sans-serif;cursor:pointer;box-shadow:0 13px 32px rgba(212,175,55,.2)}.btn.secondary{margin-top:10px;background:rgba(255,255,255,.05);color:#fff;border:1px solid var(--line);box-shadow:none}.steps{text-align:left;margin:20px 0 8px;padding:18px;border-radius:20px;background:rgba(0,0,0,.28);border:1px solid rgba(212,175,55,.15);display:none}.steps h3{color:var(--gold2);font-size:15px;margin-bottom:10px}.steps p{color:#ddd;line-height:1.8;font-size:13px}.status{min-height:24px;margin-top:14px;color:var(--gold2);font-size:13px}footer{margin-top:22px;color:#8f887d;font-size:11px}
+</style>
+</head>
+<body>
+<div class="card">
+<img src="logo.png" class="logo" alt="Classic San Sebastian Club">
+<h1>Install the <span class="gold">Mini App</span></h1>
+<p class="lead">Your membership is ready. To protect the member experience, mobile access continues from the installed app.</p>
+<div class="gate">After installation, open <b>CLASSIC SAN SEBASTIAN CLUB</b> from your phone's Home Screen. The dashboard will unlock automatically there.</div>
+<button id="installBtn" class="btn">＋ Add to Home Screen</button>
+<div id="iosSteps" class="steps"><h3>iPhone / iPad</h3><p>1. Open this page in Safari.<br>2. Tap the Share button.<br>3. Choose <b>Add to Home Screen</b>.<br>4. Tap <b>Add</b>.<br>5. Close Safari and open the new San Sebastian icon from your Home Screen.</p></div>
+<div id="androidSteps" class="steps"><h3>Android</h3><p>If the install window does not appear automatically, open your browser menu and choose <b>Install app</b> or <b>Add to Home screen</b>. Then open the new icon from your Home Screen.</p></div>
+<div id="status" class="status"></div>
+<button id="refreshBtn" class="btn secondary">I Installed It · Check Again</button>
+<footer>CLASSIC SAN SEBASTIAN CLUB · Berlin</footer>
+</div>
+<script>
+const memberCode=localStorage.getItem('memberCode');
+if(!memberCode){location.replace('login.html')}
+const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+if(isStandalone()){location.replace('dashboard.html')}
+const installBtn=document.getElementById('installBtn');
+const refreshBtn=document.getElementById('refreshBtn');
+const iosSteps=document.getElementById('iosSteps');
+const androidSteps=document.getElementById('androidSteps');
+const statusEl=document.getElementById('status');
+const isiOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isAndroid=/android/i.test(navigator.userAgent);
+let deferredPrompt=null;
+if(isiOS){iosSteps.style.display='block';installBtn.textContent='Show iPhone Install Steps'}
+if(isAndroid){androidSteps.style.display='block'}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;statusEl.textContent='App is ready to install.'});
+installBtn.addEventListener('click',async()=>{
+if(isStandalone()){location.replace('dashboard.html');return}
+if(deferredPrompt){deferredPrompt.prompt();const choice=await deferredPrompt.userChoice;if(choice.outcome==='accepted'){statusEl.textContent='Installed. Open the San Sebastian icon from your Home Screen.'}else{statusEl.textContent='Installation was cancelled.'}deferredPrompt=null;return}
+if(isiOS){iosSteps.style.display='block';statusEl.textContent='Safari cannot install automatically. Follow the steps above.';return}
+androidSteps.style.display='block';statusEl.textContent='Open your browser menu and choose Install app / Add to Home screen.';
+});
+refreshBtn.addEventListener('click',()=>{if(isStandalone())location.replace('dashboard.html');else statusEl.textContent='Not running as the installed app yet. Open the San Sebastian icon from your Home Screen.'});
+window.addEventListener('appinstalled',()=>{statusEl.textContent='Installation complete. Now open the San Sebastian icon from your Home Screen.'});
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+</script>
+</body>
+</html>
