@@ -83,8 +83,8 @@ photoUrl=publicData?.publicUrl||'';
 const {error:insertError}=await client.from('members').insert([{name,email,phone,birthday,photo_url:photoUrl,member_code:memberCode,points:0,visits:0,receipt_count:0,rank:'Bronze'}]);
 if(insertError) throw insertError;
 localStorage.setItem('memberCode',memberCode);localStorage.setItem('memberName',name);if(photoUrl)localStorage.setItem('memberPhoto',photoUrl);
-setStatus('Member created successfully. Opening dashboard...','success');
-setTimeout(()=>{window.location.href='dashboard.html'},500);
+setStatus('Member created. Install the mini app to continue.','success');
+setTimeout(()=>{window.location.href='install.html'},450);
 }catch(err){console.error(err);setStatus(err?.message||'Registration failed. Please try again.','error');submitBtn.disabled=false;}
 });
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
